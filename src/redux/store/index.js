@@ -1,8 +1,16 @@
 import { createStore } from 'redux'
+import { persistStore, persistReducer } from 'redux-persist'
+
+import storage from 'redux-persist/lib/storage'
 import todosReducer from '../reducers/todos.reducer'
 
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 
-export const store = createStore(todosReducer, devTools)
+const persistConfig = {
+    key: 'root',
+    storage: storage
+}
+const pxReducer = persistReducer(persistConfig, todosReducer)
 
-
+export const store = createStore(pxReducer, devTools)
+export const persistor = persistStore(store)
